@@ -1,9 +1,13 @@
 from django.contrib.auth.models import User
 from rest_framework import viewsets, generics
-from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import (
+    AllowAny,
+    IsAuthenticated,
+    IsAuthenticatedOrReadOnly,
+)
 
-from .models import Post
-from .serializers import PostSerializer, RegisterSerializer
+from .models import Post, Follow
+from .serializers import PostSerializer, RegisterSerializer, FollowSerializer
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -19,3 +23,24 @@ class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = RegisterSerializer
     permission_classes = [AllowAny]
+
+
+class FollowViewSet(viewsets.ModelViewSet):
+    serializer_class = FollowSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Follow.objects.filter(follower=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(follower=self.request.user)
+class FeedView(generics.ListAPIView):
+    serializer_class = PostSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        seguindo = Follow.objects.filter(follower=user).values_list(
+            "following", flat=True
+        )
+        return Post.objects.filter(author__in=seguindo).order_by("-created_at")
