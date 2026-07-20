@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 
-from .models import Post, Follow
+from .models import Post, Follow, Comment, Like
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -41,4 +41,26 @@ class FollowSerializer(serializers.ModelSerializer):
         if Follow.objects.filter(follower=user, following=value).exists():
             raise serializers.ValidationError("Você já segue este usuário.")
         return value
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    author = serializers.ReadOnlyField(source="author.username")
+
+    class Meta:
+        model = Comment
+        fields = ["id", "author", "post", "content", "created_at"]
+        
+class LikeSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source="user.username")
+
+    class Meta:
+        model = Like
+        fields = ["id", "user", "post", "created_at"]
+
+    def validate_post(self, value):
+        user = self.context["request"].user
+        if Like.objects.filter(user=user, post=value).exists():
+            raise serializers.ValidationError("Você já curtiu este post.")
+        return value
+
 
