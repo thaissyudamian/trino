@@ -5,9 +5,11 @@ from rest_framework.permissions import (
     IsAuthenticated,
     IsAuthenticatedOrReadOnly,
 )
+from rest_framework.response import Response
 
-from .models import Post, Follow, Comment, Like
-from .serializers import PostSerializer, RegisterSerializer, FollowSerializer, CommentSerializer, LikeSerializer
+
+from .models import Post, Follow, Comment, Like, Profile
+from .serializers import PostSerializer, RegisterSerializer, FollowSerializer, CommentSerializer, LikeSerializer, ProfileSerializer, ChangePasswordSerializer
 
 
 
@@ -52,7 +54,7 @@ class CommentViewSet(viewsets.ModelViewSet):
 
         def perform_create(self, serializer):
             serializer.save(author=self.request.user)
-            
+
 class LikeViewSet(viewsets.ModelViewSet):
     serializer_class = LikeSerializer
     permission_classes = [IsAuthenticated]
@@ -62,5 +64,24 @@ class LikeViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+class ProfileView(generics.RetrieveUpdateAPIView):
+    serializer_class = ProfileSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        profile, _ = Profile.objects.get_or_create(user=self.request.user)
+        return profile
+class ChangePasswordView(generics.UpdateAPIView):
+    serializer_class = ChangePasswordSerializer
+    permission_classes = [IsAuthenticated]
+
+    def update(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({"detail": "Senha alterada com sucesso."})
+
+
 
 
