@@ -1,0 +1,97 @@
+:root {
+    --azul: #4f46e5;
+    --azul-escuro: #4338ca;
+    --fundo: #f7f7fb;
+    --card: #ffffff;
+    --borda: #e6e6ef;
+    --texto: #1a1a2e;
+    --suave: #6b7280;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--fundo);
+    color: var(--texto);
+    line-height: 1.5;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--card);
+    border-bottom: 1px solid var(--borda);
+    padding: 14px 20px;
+    position: sticky;
+    top: 0;
+}
+
+.brand { font-size: 1.3rem; font-weight: 800; color: var(--azul); text-decoration: none; }
+.nav-links a { margin-left: 18px; color: var(--texto); text-decoration: none; font-weight: 600; }
+.nav-links a:hover { color: var(--azul); }
+
+.container { max-width: 600px; margin: 24px auto; padding: 0 16px; }
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--borda);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+}
+
+.welcome { text-align: center; }
+.welcome h1 { font-size: 1.8rem; margin-bottom: 8px; }
+.welcome p { color: var(--suave); margin-bottom: 20px; }
+
+.btn {
+    display: inline-block;
+    background: var(--azul);
+    color: #fff;
+    padding: 10px 22px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+.btn:hover { background: var(--azul-escuro); }
+
+.form-title { text-align: center; margin-bottom: 18px; }
+
+.input {
+    width: 100%;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    border: 1px solid var(--borda);
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: inherit;
+}
+.input:focus { outline: none; border-color: var(--azul); }
+
+.btn-full { width: 100%; }
+
+.erro {
+    color: #dc2626;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    padding: 10px 12px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    font-size: .95rem;
+}
+
+.form-foot { text-align: center; color: var(--suave); margin-top: 14px; }
+.form-foot a { color: var(--azul); font-weight: 600; text-decoration: none; }
+
+textarea.input { resize: vertical; }
+
+.post-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+.post-author { font-weight: 700; }
+.post-time { color: var(--suave); font-size: .85rem; }
+.post-content { white-space: pre-wrap; word-wrap: break-word; }
+.empty { text-align: center; color: var(--suave); }

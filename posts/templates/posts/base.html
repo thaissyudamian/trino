@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Trino{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'posts/style.css' %}">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/" class="brand">🐦 Trino</a>
+        <div class="nav-links">
+            {% if user.is_authenticated %}
+                <a href="/">Feed</a>
+                <a href="/perfil/">Perfil</a>
+                <a href="/sair/">Sair</a>
+            {% else %}
+                <a href="/entrar/">Entrar</a>
+                <a href="/cadastro/">Cadastrar</a>
+            {% endif %}
+        </div>
+    </nav>
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

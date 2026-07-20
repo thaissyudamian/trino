@@ -1,0 +1,17 @@
+{% extends "posts/base.html" %}
+
+{% block title %}Cadastro — Trino{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1 class="form-title">Criar conta</h1>
+    {% if erro %}<p class="erro">{{ erro }}</p>{% endif %}
+    <form method="post" action="/cadastro/">
+        {% csrf_token %}
+        <input class="input" type="text" name="username" placeholder="Nome de usuário" required>
+        <input class="input" type="password" name="password" placeholder="Senha" required>
+        <button class="btn btn-full" type="submit">Cadastrar</button>
+    </form>
+    <p class="form-foot">Já tem conta? <a href="/entrar/">Entrar</a></p>
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "posts/base.html" %}
+
+{% block title %}Feed — Trino{% endblock %}
+
+{% block content %}
+<div class="card">
+    <form method="post" action="/">
+        {% csrf_token %}
+        <textarea class="input" name="content" rows="3" placeholder="O que está acontecendo?" maxlength="280" required></textarea>
+        <button class="btn btn-full" type="submit">Trinar</button>
+    </form>
+</div>
+
+{% for post in posts %}
+<div class="card post">
+    <div class="post-head">
+        <span class="post-author">{{ post.author.username }}</span>
+        <span class="post-time">{{ post.created_at|date:"d/m/Y H:i" }}</span>
+    </div>
+    <p class="post-content">{{ post.content }}</p>
+</div>
+{% empty %}
+<div class="card">
+    <p class="empty">Seu feed está vazio. Siga pessoas para ver os trinos delas! 🐦</p>
+</div>
+{% endfor %}
+{% endblock %}
