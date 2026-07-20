@@ -1,0 +1,47 @@
+{% extends "posts/base.html" %}
+
+{% block title %}Trino de {{ post.author.username }}{% endblock %}
+
+{% block content %}
+<div class="card post">
+    <div class="post-head">
+        <span class="post-author">{{ post.author.username }}</span>
+        <span class="post-time">{{ post.created_at|date:"d/m/Y H:i" }}</span>
+    </div>
+    <p class="post-content">{{ post.content }}</p>
+    <div class="post-actions">
+        <form method="post" action="/curtir/{{ post.id }}/">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="/post/{{ post.id }}/">
+            <button class="action-btn" type="submit">
+                {% if ja_curtiu %}❤️{% else %}🤍{% endif %} {{ post.likes.count }}
+            </button>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <h3 class="form-title">Comentários</h3>
+    {% if user.is_authenticated %}
+    <form method="post" action="/post/{{ post.id }}/">
+        {% csrf_token %}
+        <input class="input" type="text" name="content" placeholder="Escreva um comentário" maxlength="280" required>
+        <button class="btn btn-full" type="submit">Comentar</button>
+    </form>
+    {% else %}
+    <p class="empty"><a href="/entrar/">Entre</a> para comentar.</p>
+    {% endif %}
+</div>
+
+{% for c in comentarios %}
+<div class="card comment">
+    <div class="post-head">
+        <span class="post-author">{{ c.author.username }}</span>
+        <span class="post-time">{{ c.created_at|date:"d/m/Y H:i" }}</span>
+    </div>
+    <p class="post-content">{{ c.content }}</p>
+</div>
+{% empty %}
+<div class="card"><p class="empty">Nenhum comentário ainda. Seja o primeiro! 💬</p></div>
+{% endfor %}
+{% endblock %}

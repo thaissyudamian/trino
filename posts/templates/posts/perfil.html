@@ -1,0 +1,44 @@
+{% extends "posts/base.html" %}
+
+{% block title %}Perfil — Trino{% endblock %}
+
+{% block content %}
+<div class="card profile-card">
+    {% if profile.photo %}
+    <img class="avatar" src="{{ profile.photo.url }}" alt="foto">
+    {% else %}
+    <div class="avatar avatar-empty">{{ user.username|first|upper }}</div>
+    {% endif %}
+    <h2>{{ user.username }}</h2>
+    {% if user.first_name %}<p class="display-name">{{ user.first_name }}</p>{% endif %}
+    {% if profile.bio %}<p class="bio">{{ profile.bio }}</p>{% endif %}
+</div>
+
+<div class="card">
+    <h3 class="form-title">Editar perfil</h3>
+    <form method="post" action="/perfil/" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label class="label">Nome</label>
+        <input class="input" type="text" name="name" value="{{ user.first_name }}" placeholder="Seu nome">
+        <label class="label">Bio</label>
+        <input class="input" type="text" name="bio" value="{{ profile.bio }}" placeholder="Fale sobre você" maxlength="160">
+        <label class="label">Foto</label>
+        <input class="input" type="file" name="photo" accept="image/*">
+        <button class="btn btn-full" type="submit">Salvar</button>
+    </form>
+    <p class="form-foot"><a href="/trocar-senha/">Trocar senha</a></p>
+</div>
+
+<h3 class="page-title">Meus trinos</h3>
+{% for post in posts %}
+<div class="card post">
+    <div class="post-head">
+        <span class="post-author">{{ post.author.username }}</span>
+        <span class="post-time">{{ post.created_at|date:"d/m/Y H:i" }}</span>
+    </div>
+    <p class="post-content">{{ post.content }}</p>
+</div>
+{% empty %}
+<div class="card"><p class="empty">Você ainda não trinou nada.</p></div>
+{% endfor %}
+{% endblock %}

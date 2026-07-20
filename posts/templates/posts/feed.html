@@ -18,6 +18,18 @@
         <span class="post-time">{{ post.created_at|date:"d/m/Y H:i" }}</span>
     </div>
     <p class="post-content">{{ post.content }}</p>
+        <div class="post-actions">
+        <form method="post" action="/curtir/{{ post.id }}/">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="/">
+            <button class="action-btn" type="submit">
+                {% if post.id in curtidos_ids %}❤️{% else %}🤍{% endif %} {{ post.likes.count }}
+            </button>
+        </form>
+        <a class="action-btn" href="/post/{{ post.id }}/">💬 {{ post.comments.count }}</a>
+    </div>
+
+
 </div>
 {% empty %}
 <div class="card">

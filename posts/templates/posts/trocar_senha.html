@@ -1,0 +1,18 @@
+{% extends "posts/base.html" %}
+
+{% block title %}Trocar senha — Trino{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1 class="form-title">Trocar senha</h1>
+    {% if erro %}<p class="erro">{{ erro }}</p>{% endif %}
+    {% if sucesso %}<p class="sucesso">{{ sucesso }}</p>{% endif %}
+    <form method="post" action="/trocar-senha/">
+        {% csrf_token %}
+        <input class="input" type="password" name="old_password" placeholder="Senha atual" required>
+        <input class="input" type="password" name="new_password" placeholder="Nova senha" required>
+        <button class="btn btn-full" type="submit">Salvar nova senha</button>
+    </form>
+    <p class="form-foot"><a href="/perfil/">Voltar ao perfil</a></p>
+</div>
+{% endblock %}

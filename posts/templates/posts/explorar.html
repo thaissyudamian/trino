@@ -1,0 +1,26 @@
+{% extends "posts/base.html" %}
+
+{% block title %}Explorar — Trino{% endblock %}
+
+{% block content %}
+<h2 class="page-title">Explorar pessoas</h2>
+
+{% for usuario in usuarios %}
+<div class="card user-row">
+    <span class="user-name">{{ usuario.username }}</span>
+    {% if usuario.id in seguindo_ids %}
+    <form method="post" action="/deixar-de-seguir/{{ usuario.id }}/">
+        {% csrf_token %}
+        <button class="btn btn-outline" type="submit">Seguindo</button>
+    </form>
+    {% else %}
+    <form method="post" action="/seguir/{{ usuario.id }}/">
+        {% csrf_token %}
+        <button class="btn" type="submit">Seguir</button>
+    </form>
+    {% endif %}
+</div>
+{% empty %}
+<div class="card"><p class="empty">Nenhum outro usuário ainda.</p></div>
+{% endfor %}
+{% endblock %}
