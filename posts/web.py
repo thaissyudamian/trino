@@ -89,7 +89,14 @@ def perfil(request):
         profile.save()
         return redirect("perfil")
     posts = Post.objects.filter(author=request.user).order_by("-created_at")
-    return render(request, "posts/perfil.html", {"profile": profile, "posts": posts})
+    n_seguindo = Follow.objects.filter(follower=request.user).count()
+    n_seguidores = Follow.objects.filter(following=request.user).count()
+    return render(request, "posts/perfil.html", {
+        "profile": profile,
+        "posts": posts,
+        "n_seguindo": n_seguindo,
+        "n_seguidores": n_seguidores,
+    })
 
 def trocar_senha(request):
     if not request.user.is_authenticated:
@@ -127,3 +134,11 @@ def curtir(request, post_id):
         else:
             Like.objects.create(user=request.user, post=post)
     return redirect(request.POST.get("next") or "home")
+
+def conexoes(request):
+    if not request.user.is_authenticated:
+        return redirect("entrar")
+    seguindo = Follow.objects.filter(follower=request.user).select_related("following")
+    seguidores = Follow.objects.filter(following=request.user).select_related("follower")
+    return render(request, "posts/conexoes.html", {"seguindo": seguindo, "seguidores": seguidores})
+

@@ -1,0 +1,25 @@
+{% extends "posts/base.html" %}
+
+{% block title %}Conexões — Trino{% endblock %}
+
+{% block content %}
+<h2 class="page-title">Seguindo ({{ seguindo|length }})</h2>
+{% for f in seguindo %}
+<div class="card user-row">
+    <span class="user-name">{{ f.following.username }}</span>
+    <span class="post-time">desde {{ f.created_at|date:"d/m/Y" }}</span>
+</div>
+{% empty %}
+<div class="card"><p class="empty">Você ainda não segue ninguém. <a href="/explorar/">Explorar pessoas</a></p></div>
+{% endfor %}
+
+<h2 class="page-title">Seguidores ({{ seguidores|length }})</h2>
+{% for f in seguidores %}
+<div class="card user-row">
+    <span class="user-name">{{ f.follower.username }}</span>
+    <span class="post-time">desde {{ f.created_at|date:"d/m/Y" }}</span>
+</div>
+{% empty %}
+<div class="card"><p class="empty">Ninguém te segue ainda. 🐣</p></div>
+{% endfor %}
+{% endblock %}

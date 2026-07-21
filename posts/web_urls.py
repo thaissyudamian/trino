@@ -14,6 +14,8 @@ urlpatterns = [
     path("trocar-senha/", web.trocar_senha, name="trocar_senha"),
     path("post/<int:post_id>/", web.post_detalhe, name="post_detalhe"),
     path("curtir/<int:post_id>/", web.curtir, name="curtir"),
+    path("conexoes/", web.conexoes, name="conexoes"),
+
 
 
 

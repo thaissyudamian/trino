@@ -22,6 +22,7 @@
         <input class="input" type="text" name="name" value="{{ user.first_name }}" placeholder="Seu nome">
         <label class="label">Bio</label>
         <input class="input" type="text" name="bio" value="{{ profile.bio }}" placeholder="Fale sobre você" maxlength="160">
+        <p class="counts"><a href="/conexoes/">{{ n_seguindo }} seguindo · {{ n_seguidores }} seguidores</a></p>
         <label class="label">Foto</label>
         <input class="input" type="file" name="photo" accept="image/*">
         <button class="btn btn-full" type="submit">Salvar</button>

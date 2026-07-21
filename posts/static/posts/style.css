@@ -162,3 +162,8 @@ textarea.input { resize: vertical; }
     padding: 4px 0;
 }
 .action-btn:hover { color: var(--azul); }
+
+.counts { margin-top: 8px; }
+.counts a { color: var(--azul); font-weight: 600; text-decoration: none; }
+.counts a:hover { text-decoration: underline; }
+

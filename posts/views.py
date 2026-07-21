@@ -82,6 +82,5 @@ class ChangePasswordView(generics.UpdateAPIView):
         serializer.save()
         return Response({"detail": "Senha alterada com sucesso."})
 
-
-
+    
 
